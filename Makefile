@@ -1,8 +1,10 @@
+CC = gcc
+CFLAGS = -o control.out -lpigpio -lrt -lpthread
 all: control.c
-	gcc -o control.out control.c -lpigpio -lrt -lpthread
+	$(CC) $(CFLAGS) control.c
 
 debug:
-	gcc -o control.out control.c -lpigpio -lrt -lpthread -DDEBUG=1
+	$(CC) $(CFLAGS) control.c -DDEBUG=1
 
 clean:
 	$(RM) control.out
