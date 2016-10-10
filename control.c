@@ -8,10 +8,7 @@
 
 int main(int argc, char* argv[])
 {
-    unsigned int gpio_read;
-    unsigned int gpio_set;
-
-    int iteration = 0;
+    unsigned int gpio_read, gpio_set, iteration = 0;
 
     double start;
 
@@ -32,47 +29,44 @@ int main(int argc, char* argv[])
     start = time_time();
     while((time_time() - start) < 10.0)
     {
+#ifdef DEBUG
         gpio_read = gpioRead_Bits_0_31();
         fprintf(stderr, "gpio_read %d: %lu\n",iteration, gpio_read);
+#endif
 
         switch(iteration)
         {
             case 0:
                 gpioWrite_Bits_0_31_Set(GPIO_6);
-                iteration++;
                 break;
             case 1:
                 gpioWrite_Bits_0_31_Clear(GPIO_5);
-                iteration++;
                 break;
             case 2:
                 gpioWrite_Bits_0_31_Set(GPIO_13);
-                iteration++;
                 break;
             case 3:
                 gpioWrite_Bits_0_31_Clear(GPIO_6);
-                iteration++;
                 break;
             case 4:
                 gpioWrite_Bits_0_31_Set(GPIO_19);
-                iteration++;
                 break;
             case 5:
                 gpioWrite_Bits_0_31_Clear(GPIO_13);
-                iteration++;
                 break;
             case 6:
                 gpioWrite_Bits_0_31_Set(GPIO_5);
-                iteration++;
                 break;
             case 7:
                 gpioWrite_Bits_0_31_Clear(GPIO_19);
-                iteration = 0;
                 break;
         }
+        iteration++;
+        if(iteration >= 8)
+            iteration = 0;
+
         time_sleep(0.5);
     }
-
     gpioTerminate();
 
     return 0;
